@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kamp</title>
+    <link rel="stylesheet" href="SteinCSS.css">
+</head>
+<body>
+
+<h1>Saks pose stein</h1>
+<h2>Første til 5 poeng</h2>
+
+<p id="poengSpiller">Poengsum spiller: 0</p>
+<p id="poengData">Poengsum data: 0</p>
+<div id="container">
+    <article>
+        <img src="bilder/stein.png" alt="gjemt" id="stein" data-verdi="stein">
+    </article>
+    <article>
+        <img src="bilder/saks.png" alt="gjemt" id="saks" data-verdi="saks">
+    </article>
+    <article>
+        <img src="bilder/papir.png" alt="gjemt" id="papir" data-verdi="papir">
+    </article>
+    <article>
+        <img src="bilder/hand.gif" alt="gjemt" id="data">
+    </article>
+</div>
+
+<h1></h1>
+
+<button onclick="startPaNytt()">Start på nytt</button>
+
+
+<script>
+
+    const steinEl = document.querySelector("#stein");
+    const saksEl = document.querySelector("#saks");
+    const papirEl = document.querySelector("#papir");
+    const dataEl = document.querySelector("#data");
+    const valg = ["stein", "saks", "papir"];
+    const overskrifter = document.querySelectorAll("h1");
+    let dataPoeng = 0;
+    let brukerPoeng = 0;
+    const tekstPoengData = document.querySelector("#poengData");
+    const tekstPoengSpiller = document.querySelector("#poengSpiller");
+    const bilder = document.querySelectorAll("img");
+
+    steinEl.addEventListener("click", seHvemSomVant);
+    saksEl.addEventListener("click", seHvemSomVant);
+    papirEl.addEventListener("click", seHvemSomVant);
+
+    let dataValgt = "";
+
+
+    function seHvemSomVant (event){
+        let brukerTrykket = event.target;
+        let brukerValgt = brukerTrykket.dataset.verdi;
+        let dataTall = Math.floor(Math.random() * 3);
+        let dataValgt = valg[dataTall];
+
+        function resetRunde() {
+            dataEl.src = `bilder/hand.gif`;
+            steinEl.addEventListener("click", seHvemSomVant);
+            saksEl.addEventListener("click", seHvemSomVant);
+            papirEl.addEventListener("click", seHvemSomVant);
+            brukerTrykket.style.filter = "";
+            overskrifter[1].innerHTML = "";
+        }
+
+
+        brukerTrykket.style.filter = "drop-shadow(12px 12px 7px rgba(0, 0, 0, 0.5))";
+
+
+        console.log(dataValgt);
+
+        dataEl.src = `bilder/${dataValgt}.png`;
+
+        if (brukerValgt === dataValgt){
+            overskrifter[1].innerHTML = "Dere valgte det samme!";
+        } else if (brukerValgt === "saks") {
+            if (dataValgt === "papir") {
+                brukerPoeng++;
+                overskrifter[1].innerHTML = "Du vant!";
+            } else {
+                dataPoeng ++;
+                overskrifter[1].innerHTML = "Du tapte!";
+            }
+        } else if (brukerValgt === "papir") {
+            if (dataValgt === "saks") {
+                dataPoeng++;
+                overskrifter[1].innerHTML = "Du tapte!";
+            } else {
+                brukerPoeng++;
+                overskrifter[1].innerHTML = "Du vant!";
+            }
+        } else if (brukerValgt === "stein") {
+            if (dataValgt === "saks") {
+                brukerPoeng++;
+                overskrifter[1].innerHTML = "Du vant!";
+            } else {
+                dataPoeng++;
+                overskrifter[1].innerHTML = "Du tapte!";
+            }
+        }
+
+
+
+        tekstPoengData.innerHTML = `Poengsum data: ${dataPoeng}`;
+        tekstPoengSpiller.innerHTML = `Poengsum spiller: ${brukerPoeng}`;
+
+
+        steinEl.removeEventListener("click", seHvemSomVant);
+        saksEl.removeEventListener("click", seHvemSomVant);
+        papirEl.removeEventListener("click", seHvemSomVant);
+
+        if (dataPoeng == 5) {
+            startPaNytt();
+            overskrifter[0].innerHTML = "Dataen vant";
+            overskrifter[0].style.fontSize = "50px";
+        } else if (brukerPoeng == 5) {
+            startPaNytt();
+            overskrifter[0].innerHTML = "Du vant";
+            overskrifter[0].style.fontSize = "50px";
+        }
+
+        setTimeout(resetRunde, 2000);
+
+
+    }
+
+    function startPaNytt() {
+        dataEl.src = `bilder/hand.gif`;
+        steinEl.addEventListener("click", seHvemSomVant);
+        saksEl.addEventListener("click", seHvemSomVant);
+        papirEl.addEventListener("click", seHvemSomVant);
+        for (i=0; i<3; i++) {
+            bilder[i].style.filter = "";
+        }
+        dataPoeng = 0 ;
+        brukerPoeng = 0;
+        tekstPoengData.innerHTML = `Poengsum data: ${dataPoeng}`;
+        tekstPoengSpiller.innerHTML = `Poengsum spiller: ${brukerPoeng}`;
+        overskrifter[1].innerHTML = "";
+
+        overskrifter[0].style.fontSize = "";
+    }
+
+</script>
+
+</body>
+</html>
