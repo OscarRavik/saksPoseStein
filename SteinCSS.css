@@ -10,6 +10,23 @@ body {
     background-color: antiquewhite;
 }
 
+nav {
+    height: auto;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+nav a {
+    text-align: center;
+    text-decoration: none;
+    color: black;
+    font-size: 20px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
 #container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
